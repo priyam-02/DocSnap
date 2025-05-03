@@ -45,7 +45,3 @@ This is a Streamlit web app that allows users to upload a PDF document and gener
    ```bash
    streamlit run app.py
    ```
-
-## 📄 License
-
-This project is licensed under the MIT License.
