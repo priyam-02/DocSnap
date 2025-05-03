@@ -4,6 +4,8 @@ This is a Streamlit web app that allows users to upload a PDF document and gener
 
 ## 🎥 Demo
 
+https://github.com/user-attachments/assets/d429e22d-f2b2-4696-beae-435b3fc7685f
+
 ## ✨ Features
 
 - 🔹 Upload any PDF document
