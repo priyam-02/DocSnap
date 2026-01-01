@@ -7,5 +7,16 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:8000'
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'framer-motion': ['framer-motion']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000
   }
 })

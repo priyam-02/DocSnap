@@ -1,3 +1,14 @@
+[project]
+name = "pdf-summarizer"
+version = "1.0.0"
+description = "PDF Document Summarizer with FastAPI and React"
+requires-python = ">=3.9"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [tool.black]
 line-length = 100
 target-version = ['py39', 'py310', 'py311', 'py312']
