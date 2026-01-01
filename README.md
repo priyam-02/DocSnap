@@ -31,7 +31,6 @@ A production-ready web application that transforms lengthy PDF documents into co
 ### Production Ready
 - 🔒 **Enterprise Security** - CORS, rate limiting, input validation, security headers
 - 🧪 **Comprehensive Testing** - 91% backend coverage (37 tests), 93% frontend coverage (29 tests)
-- 🚀 **CI/CD Pipeline** - Automated testing, linting, and deployment via GitHub Actions
 - 📈 **Error Tracking** - Sentry integration for production monitoring
 - 📝 **Structured Logging** - JSON-formatted logs with request IDs
 - 🎯 **Type Safety** - Pydantic validation and TypeScript throughout
@@ -158,24 +157,13 @@ npm run lint # Frontend (ESLint)
 - Backend: `htmlcov/index.html` (after running pytest with --cov)
 - Frontend: `coverage/index.html` (after running `npm run test:coverage`)
 
-### CI/CD Pipeline
-
-GitHub Actions automatically runs:
-- ✅ Backend tests with coverage (pytest)
-- ✅ Frontend tests with coverage (vitest)
-- ✅ Linting and type checking (ruff, black, ESLint, TypeScript)
-- ✅ Security scanning (Trivy)
-- ✅ Automatic deployment to Vercel
-
-See [.github/workflows/test.yml](.github/workflows/test.yml) for details.
-
 ---
 
 ## 🌐 Deployment
 
-### Deploy to Vercel (Recommended)
+### Deploy to Vercel
 
-**First-time setup:**
+**Option 1: Vercel CLI (Recommended)**
 
 ```bash
 # Install Vercel CLI
@@ -184,45 +172,33 @@ npm install -g vercel
 # Login
 vercel login
 
-# Link project
-vercel link
-
 # Add environment variables
 vercel env add HF_API_TOKEN  # Required
 vercel env add SENTRY_DSN  # Optional (backend error tracking)
 vercel env add VITE_SENTRY_DSN  # Optional (frontend error tracking)
 
-# Deploy
+# Deploy to production
 vercel --prod
 ```
 
-**Automatic deployments via GitHub Actions:**
+**Option 2: Vercel Dashboard (Auto-deployment)**
 
-1. Add GitHub secrets (see above table)
-2. Run `vercel link` locally once to create `.vercel/project.json`
-3. Push to `main` → GitHub Actions deploys to production
-4. Create pull request → GitHub Actions deploys preview
-5. Deployment URLs are posted as comments on commits/PRs
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import your GitHub repository
+3. Configure environment variables in dashboard:
+   - `HF_API_TOKEN` (required)
+   - `SENTRY_DSN` (optional)
+   - `VITE_SENTRY_DSN` (optional)
+4. Click "Deploy"
+5. Vercel automatically deploys on every push to `main`
 
-**Alternative: Vercel GitHub Integration**
+**Environment Variables:**
 
-1. Connect your GitHub repository in Vercel dashboard
-2. Add environment variables in Vercel dashboard
-3. Vercel automatically deploys on every push (bypasses GitHub Actions)
-
-**Required GitHub Secrets (for CI/CD):**
-
-Add these in your GitHub repository settings → Secrets and variables → Actions:
-
-| Secret | Purpose | Required? | Where to Get |
-|--------|---------|-----------|--------------|
-| `VERCEL_TOKEN` | Deploy to Vercel | ✅ Yes | [vercel.com/account/tokens](https://vercel.com/account/tokens) |
-| `HF_API_TOKEN` | Run tests with HF API | ✅ Yes | [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) |
-| `CODECOV_TOKEN` | Coverage reports | ⚠️ Optional | [codecov.io](https://codecov.io) after linking repo |
-
-**Note:** The deploy workflow uses `vercel link` project configuration, so you don't need `VERCEL_ORG_ID` or `VERCEL_PROJECT_ID` as secrets
-
-See [.github/workflows/deploy.yml](.github/workflows/deploy.yml) for deployment configuration.
+| Variable | Purpose | Required? |
+|----------|---------|-----------|
+| `HF_API_TOKEN` | Hugging Face API access | ✅ Yes |
+| `SENTRY_DSN` | Backend error tracking | ⚠️ Optional |
+| `VITE_SENTRY_DSN` | Frontend error tracking | ⚠️ Optional |
 
 ---
 
@@ -266,10 +242,6 @@ document-summarizer/
 ├── docs/                            # Documentation
 │   ├── ARCHITECTURE.md             # System design and decisions
 │   └── API.md                      # Endpoint documentation
-│
-├── .github/workflows/              # CI/CD pipelines
-│   ├── test.yml                    # Testing and quality checks
-│   └── deploy.yml                  # Vercel deployment
 │
 ├── requirements.txt                 # Python dependencies
 ├── package.json                     # Node.js dependencies
@@ -513,7 +485,7 @@ Contributions are welcome! To contribute:
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Make changes and add tests
-4. Ensure tests pass: `pytest tests/ -v && npm run test:coverage`
+4. Ensure tests pass locally: `pytest tests/ -v && npm run test:coverage`
 5. Run linting: `make lint && npm run lint`
 6. Commit with descriptive message: `git commit -m "feat: add amazing feature"`
 7. Push to your fork: `git push origin feature/amazing-feature`
@@ -522,6 +494,7 @@ Contributions are welcome! To contribute:
 **Development Guidelines:**
 - Add tests for new features (maintain >90% coverage)
 - Follow existing code style (enforced by linters)
+- Run tests locally before submitting PR
 - Update documentation for API changes
 - Use conventional commit messages (feat, fix, docs, chore, etc.)
 
