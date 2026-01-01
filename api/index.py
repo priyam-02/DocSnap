@@ -108,13 +108,13 @@ app.add_middleware(RequestIDMiddleware)
 app.add_middleware(SecurityHeadersMiddleware)
 
 
-@app.get("/api/health")
+@app.get("/health")
 async def health_check():
     """Health check endpoint"""
     return {"status": "ok", "service": "PDF Summarizer API"}
 
 
-@app.post("/api/summarize", response_model=SummarizeResponse)
+@app.post("/summarize", response_model=SummarizeResponse)
 @limiter.limit(f"{settings.RATE_LIMIT_PER_HOUR}/hour")
 async def summarize_endpoint(
     request: Request,
@@ -253,7 +253,7 @@ async def summarize_endpoint(
         raise HTTPException(500, f"Failed to process document: {str(e)}")
 
 
-@app.post("/api/summarize-stream")
+@app.post("/summarize-stream")
 @limiter.limit(f"{settings.RATE_LIMIT_PER_HOUR}/hour")
 async def summarize_stream_endpoint(
     request: Request,
