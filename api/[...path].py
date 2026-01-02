@@ -46,7 +46,7 @@ if SENTRY_DSN:
 # Initialize logger with config
 logger = setup_logging(settings.LOG_LEVEL)
 
-app = FastAPI(title="PDF Document Summarizer API")
+app = FastAPI(title="PDF Document Summarizer API", root_path="/api")
 
 # Initialize rate limiter
 limiter = Limiter(key_func=get_remote_address)
